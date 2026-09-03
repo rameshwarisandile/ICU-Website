@@ -1,0 +1,65 @@
+[
+  {
+    "id": "ALT-1001",
+    "patient_id": "ICU-1040",
+    "alert_type": "Critical deterioration",
+    "severity": "Critical",
+    "status": "New",
+    "message": "Rapid deterioration in oxygenation and blood pressure.",
+    "time": "2026-09-01T09:45:00"
+  },
+  {
+    "id": "ALT-1002",
+    "patient_id": "ICU-1027",
+    "alert_type": "Abnormal SpO2",
+    "severity": "Warning",
+    "status": "Unread",
+    "message": "SpO2 dropped below threshold for more than 5 minutes.",
+    "time": "2026-09-01T09:30:00"
+  },
+  {
+    "id": "ALT-1003",
+    "patient_id": "ICU-1015",
+    "alert_type": "High heart rate",
+    "severity": "Warning",
+    "status": "New",
+    "message": "Tachycardia trending above 118 bpm.",
+    "time": "2026-09-01T09:18:00"
+  },
+  {
+    "id": "ALT-1004",
+    "patient_id": "ICU-1009",
+    "alert_type": "Low blood pressure",
+    "severity": "Critical",
+    "status": "Resolved",
+    "message": "MAP reduced to concerning range after vasopressor wean.",
+    "time": "2026-09-01T08:50:00"
+  },
+  {
+    "id": "ALT-1005",
+    "patient_id": "ICU-1037",
+    "alert_type": "Abnormal temperature",
+    "severity": "Warning",
+    "status": "Unread",
+    "message": "Temperature increased above 38.4°C in the last hour.",
+    "time": "2026-09-01T08:35:00"
+  },
+  {
+    "id": "ALT-1006",
+    "patient_id": "ICU-1022",
+    "alert_type": "Drug interaction warning",
+    "severity": "Informational",
+    "status": "Resolved",
+    "message": "Medication review flagged possible interaction with anticoagulant therapy.",
+    "time": "2026-09-01T08:20:00"
+  },
+  {
+    "id": "ALT-1007",
+    "patient_id": "ICU-1032",
+    "alert_type": "AI high-risk prediction",
+    "severity": "Warning",
+    "status": "New",
+    "message": "AI risk estimation indicates high deterioration risk within 6 hours.",
+    "time": "2026-09-01T08:10:00"
+  }
+]

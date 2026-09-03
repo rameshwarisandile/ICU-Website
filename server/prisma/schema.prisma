@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  DOCTOR
+  NURSE
+  ANALYST
+}
+
+enum PatientStatus {
+  STABLE
+  CRITICAL
+  RECOVERING
+  DISCHARGED
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum AlertType {
+  VITALS
+  MEDICATION
+  DEVICE
+  RISK
+  GENERAL
+}
+
+enum AlertStatus {
+  ACTIVE
+  ACKNOWLEDGED
+  RESOLVED
+}
+
+enum InventoryCategory {
+  MEDICATION
+  SUPPLY
+  EQUIPMENT
+  LAB
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String
+  role          Role     @default(DOCTOR)
+  passwordHash  String
+  avatarUrl     String?
+  phone         String?
+  department    String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  notifications Notification[]
+  auditLogs     AuditLog[]
+}
+
+model Patient {
+  id             String        @id @default(cuid())
+  patientNumber  String        @unique
+  firstName      String
+  lastName       String
+  age            Int
+  sex            String
+  bedNumber      String
+  unit           String
+  attendingDoctor String?
+  status         PatientStatus @default(STABLE)
+  severity       Severity      @default(MEDIUM)
+  admissionDate  DateTime      @default(now())
+  dischargeDate  DateTime?
+  riskScore      Int           @default(0)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  vitals          Vital[]
+  alerts          Alert[]
+  riskPredictions RiskPrediction[]
+  notifications   Notification[]
+}
+
+model Vital {
+  id               String   @id @default(cuid())
+  patientId        String
+  timestamp        DateTime @default(now())
+  heartRate        Float
+  systolicBP       Float
+  diastolicBP      Float
+  oxygenSaturation Float
+  respiratoryRate  Float
+  temperature      Float
+  glucose          Float?
+  painScore        Int?
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+}
+
+model RiskPrediction {
+  id           String   @id @default(cuid())
+  patientId    String
+  modelVersion String
+  score        Float
+  riskLevel    Severity
+  probability  Float
+  factors      Json?
+  recommendation String?
+  createdAt    DateTime @default(now())
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+}
+
+model Alert {
+  id          String      @id @default(cuid())
+  patientId   String?
+  title       String
+  message     String
+  type        AlertType
+  severity    Severity
+  status      AlertStatus @default(ACTIVE)
+  createdAt   DateTime    @default(now())
+  acknowledgedAt DateTime?
+
+  patient Patient? @relation(fields: [patientId], references: [id], onDelete: SetNull)
+}
+
+model Notification {
+  id          String      @id @default(cuid())
+  userId      String?
+  patientId   String?
+  title       String
+  message     String
+  type        AlertType
+  read        Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+
+  user    User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  patient Patient? @relation(fields: [patientId], references: [id], onDelete: SetNull)
+}
+
+model InventoryItem {
+  id          String            @id @default(cuid())
+  name        String
+  category    InventoryCategory
+  sku         String           @unique
+  quantity    Int
+  reorderLevel Int
+  unitCost    Float
+  location    String
+  supplier    String?
+  updatedAt   DateTime         @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
+  entityType String
+  entityId   String?
+  details    Json?
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
