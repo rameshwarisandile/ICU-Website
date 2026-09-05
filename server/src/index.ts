@@ -1,6 +1,8 @@
 import cors from 'cors'
 import express from 'express'
 import { createServer } from 'http'
+import { createServer as createHttpsServer } from 'https'
+import { readFileSync } from 'node:fs'
 import { Server } from 'socket.io'
 import { env } from './config/env.js'
 import authRouter from './routes/auth.js'
@@ -8,16 +10,22 @@ import patientRouter from './routes/patients.js'
 import { startVitalsSimulator } from './services/vitalsSimulator.js'
 
 export const app = express()
-const httpServer = createServer(app)
+const serverOptions = env.hasLocalSsl
+  ? {
+      key: readFileSync(env.sslKeyFile),
+      cert: readFileSync(env.sslCertFile),
+    }
+  : undefined
+const appServer = serverOptions ? createHttpsServer(serverOptions, app) : createServer(app)
 
-export const io = new Server(httpServer, {
+export const io = new Server(appServer, {
   cors: {
-    origin: env.clientUrl,
+    origin: env.clientUrls,
     methods: ['GET', 'POST'],
   },
 })
 
-app.use(cors({ origin: env.clientUrl, credentials: true }))
+app.use(cors({ origin: env.clientUrls, credentials: true }))
 app.use(express.json())
 
 app.use('/api/auth', authRouter)
@@ -35,8 +43,9 @@ io.on('connection', (socket) => {
   })
 })
 
-httpServer.listen(env.port, () => {
-  console.log(`ICU server running on http://localhost:${env.port}`)
+appServer.listen(env.port, () => {
+  const protocol = serverOptions ? 'https' : 'http'
+  console.log(`ICU server running on ${protocol}://localhost:${env.port}`)
   void startVitalsSimulator(io).catch((error) => {
     console.error('Vitals simulator failed to start:', error)
   })

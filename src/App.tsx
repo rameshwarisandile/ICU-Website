@@ -9,9 +9,9 @@ import { NotificationProvider } from './context/NotificationContext'
 function AppShell() {
   const location = useLocation()
   const [collapsed, setCollapsed] = useState(false)
-  const isAuthRoute = location.pathname === '/login' || location.pathname === '/register'
+  const isPublicRoute = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/register'
 
-  if (isAuthRoute) {
+  if (isPublicRoute) {
     return <AppRoutes />
   }
 

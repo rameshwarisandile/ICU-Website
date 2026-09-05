@@ -1,7 +1,9 @@
 const normalizeUrl = (value: string) => value.replace(/\/$/, '')
+const defaultProtocol =
+  typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'https' : 'http'
 
-export const API_BASE_URL = normalizeUrl(import.meta.env.VITE_API_URL ?? 'http://localhost:4000/api')
-export const SOCKET_URL = normalizeUrl(import.meta.env.VITE_SOCKET_URL ?? 'http://localhost:4000')
+export const API_BASE_URL = normalizeUrl(import.meta.env.VITE_API_URL ?? `${defaultProtocol}://localhost:4000/api`)
+export const SOCKET_URL = normalizeUrl(import.meta.env.VITE_SOCKET_URL ?? `${defaultProtocol}://localhost:4000`)
 const STORAGE_KEY = 'icu-auth-token'
 
 const readToken = () => {

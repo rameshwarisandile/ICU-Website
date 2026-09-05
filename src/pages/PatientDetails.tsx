@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { Area, AreaChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { Activity, Clock3, HeartPulse, ShieldAlert, Stethoscope, Thermometer } from 'lucide-react'
 import { usePatients } from '../hooks/usePatients'
@@ -7,28 +7,64 @@ import RiskBadge from '../components/common/RiskBadge'
 
 const PatientDetailsPage = () => {
   const { id } = useParams()
-  const { patients } = usePatients()
+  const { patients, loading } = usePatients()
   const { vitals } = useVitals()
   const patient = patients.find((entry) => entry.patient_id === id) || patients[0]
 
-  const patientVitals = vitals.filter((entry) => entry.patient_id === patient.patient_id)
+  if (loading) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center p-6 text-sm font-semibold text-slate-500">
+        Loading patient details...
+      </div>
+    )
+  }
 
-  const heartRateData = patientVitals.map((point) => ({
+  if (!patient) {
+    return (
+      <div className="p-6">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft">
+          <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Patient overview</p>
+          <h2 className="mt-2 text-2xl font-bold text-slate-900">No patient data available</h2>
+          <p className="mt-2 text-sm text-slate-600">Demo data could not be loaded for this view.</p>
+          <Link to="/patients" className="mt-4 inline-flex font-semibold text-blue-600 hover:text-blue-700">
+            Back to patients
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  const patientVitals = vitals.filter((entry) => entry.patient_id === patient.patient_id)
+  const chartVitals =
+    patientVitals.length > 0
+      ? patientVitals
+      : Array.from({ length: 6 }, (_, index) => ({
+          timestamp: new Date(Date.now() - (5 - index) * 60 * 60 * 1000).toISOString(),
+          patient_id: patient.patient_id,
+          heart_rate: patient.heart_rate + index - 2,
+          spo2: Math.max(80, Math.min(100, patient.spo2 + (index % 3) - 1)),
+          systolic_bp: patient.systolic_bp + index - 2,
+          diastolic_bp: patient.diastolic_bp,
+          respiratory_rate: patient.respiratory_rate + (index % 2),
+          temperature: Number((patient.temperature + (index - 2) * 0.1).toFixed(1)),
+        }))
+
+  const heartRateData = chartVitals.map((point) => ({
     time: new Date(point.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     value: point.heart_rate,
   }))
 
-  const spo2Data = patientVitals.map((point) => ({
+  const spo2Data = chartVitals.map((point) => ({
     time: new Date(point.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     value: point.spo2,
   }))
 
-  const bloodPressureData = patientVitals.map((point) => ({
+  const bloodPressureData = chartVitals.map((point) => ({
     time: new Date(point.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     value: point.systolic_bp,
   }))
 
-  const tempData = patientVitals.map((point) => ({
+  const tempData = chartVitals.map((point) => ({
     time: new Date(point.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     value: point.temperature,
   }))
@@ -92,7 +128,7 @@ const PatientDetailsPage = () => {
         </div>
         <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-soft">
           <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-slate-500"><Thermometer className="h-4 w-4 text-orange-500" /> Temp</p>
-          <p className="mt-3 text-3xl font-bold text-slate-900">{patient.temperature}°C</p>
+          <p className="mt-3 text-3xl font-bold text-slate-900">{patient.temperature}&deg;C</p>
           <p className="mt-1 text-xs text-slate-500">core</p>
         </div>
       </div>

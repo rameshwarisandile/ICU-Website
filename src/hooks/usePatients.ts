@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { apiRequest } from '../services/api'
 import type { PatientRecord } from '../types/patient'
+import fallbackPatients from '../data/patients.json'
+
+const dummyPatients = fallbackPatients as PatientRecord[]
 
 export const usePatients = () => {
   const [patients, setPatients] = useState<PatientRecord[]>([])
@@ -11,10 +14,11 @@ export const usePatients = () => {
     const fetchPatients = async () => {
       try {
         const data = await apiRequest<PatientRecord[]>('/patients')
-        setPatients(data)
+        setPatients(data.length > 0 ? data : dummyPatients)
       } catch (err) {
         console.error('Failed to load patients:', err)
-        setError('Unable to load patient data.')
+        setPatients(dummyPatients)
+        setError('Using demo patient data because the backend is unavailable.')
       } finally {
         setLoading(false)
       }

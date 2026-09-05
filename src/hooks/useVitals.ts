@@ -1,6 +1,23 @@
 import { useEffect, useState } from 'react'
 import { apiRequest } from '../services/api'
-import type { VitalPoint } from '../types/patient'
+import type { PatientRecord, VitalPoint } from '../types/patient'
+import fallbackPatients from '../data/patients.json'
+import fallbackVitals from '../data/vitals.json'
+
+const dummyPatients = fallbackPatients as PatientRecord[]
+const dummyVitals = fallbackVitals as VitalPoint[]
+
+const latestVitalsFromPatients = (patients: PatientRecord[]) =>
+  patients.map((patient) => ({
+    timestamp: new Date().toISOString(),
+    patient_id: patient.patient_id,
+    heart_rate: patient.heart_rate,
+    spo2: patient.spo2,
+    systolic_bp: patient.systolic_bp,
+    diastolic_bp: patient.diastolic_bp,
+    respiratory_rate: patient.respiratory_rate,
+    temperature: patient.temperature,
+  }))
 
 export const useVitals = () => {
   const [vitals, setVitals] = useState<VitalPoint[]>([])
@@ -10,26 +27,12 @@ export const useVitals = () => {
   useEffect(() => {
     const fetchVitals = async () => {
       try {
-        const data = await apiRequest<VitalPoint[]>('/patients')
-        const flattened = data.flatMap((patient) => {
-          const vital = {
-            timestamp: new Date().toISOString(),
-            patient_id: patient.patient_id,
-            heart_rate: patient.heart_rate,
-            spo2: patient.spo2,
-            systolic_bp: patient.systolic_bp,
-            diastolic_bp: patient.diastolic_bp,
-            respiratory_rate: patient.respiratory_rate,
-            temperature: patient.temperature,
-          }
-
-          return [vital]
-        })
-
-        setVitals(flattened)
+        const data = await apiRequest<PatientRecord[]>('/patients')
+        setVitals([...dummyVitals, ...latestVitalsFromPatients(data.length > 0 ? data : dummyPatients)])
       } catch (err) {
         console.error('Failed to load vitals:', err)
-        setError('Unable to load live vitals.')
+        setVitals([...dummyVitals, ...latestVitalsFromPatients(dummyPatients)])
+        setError('Using demo vitals because the backend is unavailable.')
       } finally {
         setLoading(false)
       }

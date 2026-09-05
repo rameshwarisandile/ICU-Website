@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion'
-import { AlertCircle, Check, Eye, EyeOff, Mail, Phone, ShieldCheck, UserRound } from 'lucide-react'
+import { AlertCircle, Check, Eye, EyeOff, Home, Mail, Phone, ShieldCheck, UserRound } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const roles = ['ICU Consultant', 'Doctor', 'Nurse', 'Administrator']
 const departments = ['ICU', 'Emergency', 'Cardiology', 'Neurology', 'General Medicine', 'Administration']
+const doctorBackgroundImage =
+  'https://www.mcgill.ca/desautels/files/desautels/styles/hd/public/mohamed-badawy-gchm-960x537.jpg?itok=U9T_BOfW&timestamp=1663944897'
 
 const RegisterPage = () => {
   const navigate = useNavigate()
@@ -85,7 +87,19 @@ const RegisterPage = () => {
 
   return (
     <div className="auth-shell">
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-30"
+        style={{ backgroundImage: `url("${doctorBackgroundImage}")` }}
+      />
+      <div className="absolute inset-0 bg-slate-950/70" />
       <div className="medical-grid" />
+      <Link
+        to="/"
+        className="absolute left-4 top-4 z-20 inline-flex h-11 items-center gap-2 rounded-xl border border-white/15 bg-white/10 px-4 text-sm font-semibold text-white shadow-lg shadow-slate-950/25 backdrop-blur transition hover:bg-white/15 md:left-8 md:top-8"
+      >
+        <Home className="h-4 w-4" />
+        Home
+      </Link>
       <div className="mx-auto flex min-h-screen w-full items-center justify-center p-4 md:p-8">
         <motion.div
           initial={{ opacity: 0, y: 18 }}

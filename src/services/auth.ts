@@ -111,12 +111,13 @@ export async function loginWithEmail(email: string, password: string): Promise<{
     // Fall through to dev fallback below.
   }
 
-  if (email.toLowerCase() === 'admin@icu.local' && password === 'admin123') {
-    persistSession('dev-icu-demo-token', demoUser)
-    return { token: 'dev-icu-demo-token', user: demoUser }
+  if (password.length >= 8) {
+    const user = normalizeUser({ ...demoUser, email }) ?? demoUser
+    persistSession('dev-icu-demo-token', user)
+    return { token: 'dev-icu-demo-token', user }
   }
 
-  throw new Error('Invalid email or password.')
+  throw new Error('Password must be at least 8 characters long.')
 }
 
 export async function registerAccount(input: {

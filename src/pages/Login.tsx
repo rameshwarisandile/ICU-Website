@@ -1,8 +1,11 @@
 import { motion } from 'framer-motion'
-import { AlertCircle, Eye, EyeOff, Lock, Mail, ShieldCheck, Stethoscope } from 'lucide-react'
+import { AlertCircle, Eye, EyeOff, Home, Lock, Mail, ShieldCheck, Stethoscope } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+
+const doctorBackgroundImage =
+  'https://www.mcgill.ca/desautels/files/desautels/styles/hd/public/mohamed-badawy-gchm-960x537.jpg?itok=U9T_BOfW&timestamp=1663944897'
 
 const LoginPage = () => {
   const navigate = useNavigate()
@@ -33,7 +36,20 @@ const LoginPage = () => {
 
   return (
     <div className="auth-shell">
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-30"
+        style={{ backgroundImage: `url("${doctorBackgroundImage}")` }}
+      />
+      <div className="absolute inset-0 bg-slate-950/70" />
       <div className="medical-grid" />
+
+      <Link
+        to="/"
+        className="absolute left-4 top-4 z-20 inline-flex h-11 items-center gap-2 rounded-xl border border-white/15 bg-white/10 px-4 text-sm font-semibold text-white shadow-lg shadow-slate-950/25 backdrop-blur transition hover:bg-white/15 md:left-8 md:top-8"
+      >
+        <Home className="h-4 w-4" />
+        Home
+      </Link>
 
       <div className="mx-auto flex min-h-screen w-full max-w-7xl items-center justify-center p-4 md:p-8">
         <div className="auth-panel grid w-full max-w-6xl overflow-hidden rounded-[32px] border border-slate-700/60 bg-slate-950/80 shadow-[0_30px_80px_rgba(15,23,42,0.5)] backdrop-blur-xl md:grid-cols-[1.05fr_0.95fr]">
@@ -111,6 +127,9 @@ const LoginPage = () => {
               </div>
 
               <p className="mt-3 text-sm text-slate-600">Secure access for authorized healthcare personnel.</p>
+              <p className="mt-2 rounded-2xl border border-cyan-100 bg-cyan-50 px-3 py-2 text-xs font-semibold text-cyan-800">
+                Demo login: admin@icu.local / admin123
+              </p>
 
               <form onSubmit={handleSubmit} className="mt-8 space-y-5">
                 {error && (
