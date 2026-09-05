@@ -1,0 +1,26 @@
+patient_id,patient_name,age,gender,bed_number,icu_unit,attending_doctor,acuity,admission_date,ventilation_status
+ICU-1001,Wei Nguyen,25,Female,3-100,ICU-3,Dr. Fernandes,high,2026-09-01,Non-ventilated
+ICU-1002,Kabir Reddy,66,Female,3-101,ICU-3,Dr. Okoro,high,2026-08-30,Nasal Cannula
+ICU-1003,Elena Rossi,23,Male,3-102,ICU-3,Dr. Verma,medium,2026-08-27,Non-ventilated
+ICU-1004,Sara Reddy,52,Male,2-103,ICU-2,Dr. Verma,high,2026-08-27,Non-ventilated
+ICU-1005,Ananya Brooks,61,Male,2-104,ICU-2,Dr. Iyer,low,2026-08-28,Ventilated
+ICU-1006,Diya Okafor,68,Female,CCU-105,CCU,Dr. Lin,low,2026-08-31,Non-ventilated
+ICU-1007,Noah Ali,44,Female,CCU-106,CCU,Dr. Lin,low,2026-08-28,Ventilated
+ICU-1008,Ethan Okafor,65,Male,1-107,ICU-1,Dr. Ahuja,medium,2026-09-01,Non-ventilated
+ICU-1009,Kabir Rossi,60,Female,CCU-108,CCU,Dr. Ahuja,high,2026-08-31,Nasal Cannula
+ICU-1010,Maya Okafor,78,Male,3-109,ICU-3,Dr. Iyer,high,2026-08-30,Non-ventilated
+ICU-1011,Arjun Fernandes,78,Male,2-110,ICU-2,Dr. Iyer,low,2026-08-31,Non-ventilated
+ICU-1012,Ananya Reddy,41,Male,2-111,ICU-2,Dr. Okoro,high,2026-08-31,Non-ventilated
+ICU-1013,Arjun Garcia,54,Female,2-112,ICU-2,Dr. Iyer,low,2026-09-01,Ventilated
+ICU-1014,Ethan Ali,22,Female,3-113,ICU-3,Dr. Ahuja,low,2026-08-30,Non-ventilated
+ICU-1015,Ravi Nguyen,54,Female,2-114,ICU-2,Dr. Verma,medium,2026-08-27,Non-ventilated
+ICU-1016,Noah Kim,73,Female,CCU-115,CCU,Dr. Ahuja,low,2026-08-30,Ventilated
+ICU-1017,Zara Mehta,77,Female,CCU-116,CCU,Dr. Verma,medium,2026-08-31,Non-ventilated
+ICU-1018,Omar Brooks,48,Female,2-117,ICU-2,Dr. Okoro,high,2026-08-31,Non-ventilated
+ICU-1019,Ava Mehta,66,Female,3-118,ICU-3,Dr. Ahuja,high,2026-09-01,Non-ventilated
+ICU-1020,Sara Brooks,37,Male,CCU-119,CCU,Dr. Ahuja,medium,2026-08-28,Ventilated
+ICU-1021,Arjun Mehta,79,Female,CCU-120,CCU,Dr. Lin,medium,2026-08-29,Ventilated
+ICU-1022,Fatima Chen,65,Female,2-121,ICU-2,Dr. Okoro,low,2026-09-01,Nasal Cannula
+ICU-1023,Isabella Sharma,25,Male,1-122,ICU-1,Dr. Verma,low,2026-08-27,Ventilated
+ICU-1024,Ava Nguyen,54,Male,CCU-123,CCU,Dr. Fernandes,low,2026-08-27,Ventilated
+ICU-1025,Noah Thompson,65,Female,CCU-124,CCU,Dr. Iyer,medium,2026-08-28,Non-ventilated
