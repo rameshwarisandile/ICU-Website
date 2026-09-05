@@ -53,8 +53,8 @@ const Sidebar = ({ collapsed, onToggle }: SidebarProps) => (
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <p className="text-[9px] uppercase tracking-[0.32em] text-slate-400">ICU</p>
-              <h1 className="truncate text-lg font-semibold text-white">Intelligence</h1>
+              <p className="text-[9px] uppercase tracking-[0.32em] text-slate-400">Vital</p>
+              <h1 className="truncate text-lg font-semibold text-white">Link</h1>
             </div>
           )}
         </div>
