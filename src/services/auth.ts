@@ -16,7 +16,7 @@ const USER_KEY = 'icu-auth-user'
 
 const demoUser: AppUser = {
   id: 'demo-user-1',
-  name: 'Dr. Sarah Williams',
+  name: 'Dr. Rajni Sharma',
   email: 'sarah@icu.intelligence',
   role: 'ICU Consultant',
   department: 'Critical Care',
@@ -50,7 +50,7 @@ const normalizeUser = (user: Partial<AppUser> | null | undefined): AppUser | nul
 
   return {
     id: user.id ?? 'demo-user-1',
-    name: user.name ?? 'Dr. Sarah Williams',
+    name: user.name ?? 'Dr. Rajni Sharma',
     email: user.email ?? 'sarah@icu.intelligence',
     role: normalizeRole(user.role),
     department: user.department ?? 'Critical Care',

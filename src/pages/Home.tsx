@@ -23,9 +23,9 @@ const HomePage = () => {
               </span>
               <span>
                 <span className="block text-[10px] font-semibold uppercase tracking-[0.32em] text-cyan-100/80">
-                  ICU
+                  Link
                 </span>
-                <span className="block text-lg font-bold tracking-normal">Intelligence</span>
+                <span className="block text-lg font-bold tracking-normal">Vital</span>
               </span>
             </Link>
 
@@ -59,7 +59,7 @@ const HomePage = () => {
                 Secure ICU Command Center
               </p>
               <h1 className="mt-7 text-5xl font-black leading-[1.02] tracking-normal text-white sm:text-6xl lg:text-7xl">
-                ICU Intelligence
+                Link Vital
               </h1>
               <p className="mt-6 max-w-2xl text-lg font-medium leading-8 text-slate-100 sm:text-xl">
                 Real-time patient monitoring, risk prediction, alerts, and clinical support in one focused workspace

@@ -1,23 +1,34 @@
 import { Camera, Edit3, Lock, Mail, Phone, ShieldCheck, UserRound } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 
 const ProfilePage = () => {
   const { user, updateUser } = useAuth()
   const [form, setForm] = useState({
-    name: user?.name ?? 'Dr. Sarah Williams',
-    email: user?.email ?? 'sarah@icu.intelligence',
-    phone: user?.phone ?? '+1 (415) 204-1188',
-    department: user?.department ?? 'Critical Care',
-    role: user?.role ?? 'ICU Consultant',
-  })
+  name: '',
+  email: '',
+  phone: '',
+  department: '',
+  role: '',
+})
 
+useEffect(() => {
+  if (user) {
+    setForm({
+      name: user.name || '',
+      email: user.email || '',
+      phone: user.phone || '',
+      department: user.department || '',
+      role: user.role || '',
+    })
+  }
+}, [user])
   const handleSave = () => {
     if (!user) return
     updateUser({ ...user, ...form, name: form.name, email: form.email, phone: form.phone, department: form.department, role: form.role })
   }
 
-  const initials = (user?.name ?? 'Dr. Sarah Williams')
+  const initials = (user?.name ?? '')
     .split(' ')
     .map((part) => part[0])
     .join('')
@@ -40,8 +51,8 @@ const ProfilePage = () => {
 
             <div>
               <p className="text-[11px] uppercase tracking-[0.25em] text-slate-500">Clinician profile</p>
-              <h2 className="mt-2 text-3xl font-bold text-slate-900">{user?.name ?? 'Dr. Sarah Williams'}</h2>
-              <p className="mt-1 text-sm text-slate-600">{user?.role ?? 'ICU Consultant'} • {user?.department ?? 'Critical Care'}</p>
+              <h2 className="mt-2 text-3xl font-bold text-slate-900">{user?.name ?? ''}</h2>
+              <p className="mt-1 text-sm text-slate-600">{user?.role ?? ''} • {user?.department ?? ''}</p>
             </div>
           </div>
 
